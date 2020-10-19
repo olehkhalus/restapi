@@ -4,6 +4,7 @@ import com.inventoracademy.restapi.model.Car;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Repository
@@ -29,22 +30,14 @@ public class CarDAOImpl implements CarDAO {
 
     @Override
     public void update(long id, Car newCar) {
-        for (Car car : carList) {
-            if (car.getId() == id) {
-                car.setBrand(newCar.getBrand());
-                car.setType(newCar.getType());
-                car.setYear(newCar.getYear());
-            }
-        }
+        carList.removeIf(car -> car.getId() == id);
+        Car model = new Car(id, newCar.getBrand(), newCar.getType(), newCar.getYear());
+        carList.add(model);
     }
 
     @Override
     public void delete(long id) {
-        for (Car car : carList) {
-            if (car.getId() == id) {
-                carList.remove(car);
-            }
-        }
+        carList.removeIf(car -> car.getId() == id);
     }
 
     @Override
