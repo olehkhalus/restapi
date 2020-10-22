@@ -1,6 +1,6 @@
 package com.inventoracademy.restapi.model;
 
-public class CarResponse {
+public class CarRequest {
     private long id;
     private String brand;
     private String type;

@@ -1,16 +1,18 @@
 package com.inventoracademy.restapi.dao;
 
 import com.inventoracademy.restapi.model.Car;
+import com.inventoracademy.restapi.model.UpdateCarRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class CarDAOImpl implements CarDAO {
 
-    List<Car> carList = new ArrayList<>();
+    private List<Car> carList = new ArrayList<>();
 
 
     @Override
@@ -20,23 +22,40 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public Car read(long id) {
+    public Car read(Long id) {
         for (Car car : carList) {
             if (car.getId() == id)
                 return car;
         }
-        return null;
+        throw new IllegalArgumentException("Car not found");
     }
 
     @Override
-    public void update(long id, Car newCar) {
-        carList.removeIf(car -> car.getId() == id);
-        Car model = new Car(id, newCar.getBrand(), newCar.getType(), newCar.getYear());
-        carList.add(model);
+    public Car update(UpdateCarRequest updateCar) {
+        Car updatedCar = new Car();
+
+        Optional<Car> carOptional = carList.stream()
+                .filter(car -> car.getId()==(updateCar.getId()))
+                .findFirst();
+        if(carOptional.isPresent()){
+
+            Car car = carOptional.get();
+
+            updatedCar.setId(updateCar.getId());
+            updatedCar.setBrand(updateCar.getBrand());
+            updatedCar.setType(updateCar.getType());
+            updatedCar.setYear(updateCar.getYear());
+
+            carList.remove(car);
+            carList.add(updatedCar);
+        }else{
+            throw new IllegalArgumentException("Car not found");
+        }
+        return updatedCar;
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         carList.removeIf(car -> car.getId() == id);
     }
 

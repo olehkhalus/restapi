@@ -2,6 +2,7 @@ package com.inventoracademy.restapi.service;
 
 import com.inventoracademy.restapi.dao.CarDAOImpl;
 import com.inventoracademy.restapi.model.Car;
+import com.inventoracademy.restapi.model.UpdateCarRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +19,17 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car read(long id) {
+    public Car read(Long id) {
         return carDAOImpl.read(id);
     }
 
     @Override
-    public void update(long id, Car newCar) {
-        carDAOImpl.update(id,newCar);
+    public Car update(UpdateCarRequest updateCar) {
+        return carDAOImpl.update(updateCar);
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         carDAOImpl.delete(id);
     }
 

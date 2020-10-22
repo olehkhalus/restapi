@@ -8,6 +8,9 @@ public class Car {
     private String type;
     private int year;
 
+    public Car(){
+
+    }
     public Car(long id, String brand, String type, int year) {
         this.id = id;
         this.brand = brand;
